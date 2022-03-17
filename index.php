@@ -8,6 +8,17 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
+session_start();
+if(!empty($_GET['id'])){
+    $_SESSION['id'] =$_GET['id'];
+}
+
+//function pre to format the data output better
+function pre($array){
+    echo "<pre>";
+    print_r($array);
+    echo "</pre>";
+}
 // Load you classes
 require_once 'config.php';
 require_once 'classes/DatabaseManager.php';
@@ -44,7 +55,12 @@ switch ($action){
     case 'create':
         // $cardRepository->aboutMe();
         // require 'about-me.php'
-        $cardRepository->create();//create new variable cardrepository and store in cardrepository
+        $cardRepository->create($cardRepository);//create new variable cardrepository and store in cardrepository
+        break;
+    case 'edit':
+        // $cardRepository->aboutMe();
+        // require 'about-me.php'
+        update($databaseManager, $cardRepository);//create new variable cardrepository and store in cardrepository
         break;
     default:
         // $this->overview(); -->not used cause this a side object 
@@ -54,14 +70,28 @@ switch ($action){
         break;
 }
 
-function overview($cards)
+function overview($cardRepository)
 {
     // Load your view
     // Tip: you can load this dynamically and based on a variable, if you want to load another view
     require 'overview.php';
+    require 'Edit.php';
 }
 
 function create($cardRepository)
 {
     // TODO: provide the create logic
+    $values="'{$_GET['title']}', '{$_GET['author']}', '{$_GET['synopsis']}'";
+    $cardRepository->create($values);
+}
+
+function update($cardRepository){
+    $query="SELECT * FROM books WHERE id ={$_SESSION['id']}'"; //fetch data from table books using id's
+    $result=$databaseManager->connection->query($query);
+    $fetch=$result->fetch(PDO::FETCH_ASSOC);
+    pre (array:$fetch);
+    require 'Edit.php';
+    if(!empty($_GET['books'])){
+        $cardRepository->update;
+    }
 }

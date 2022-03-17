@@ -16,11 +16,12 @@ class CardRepository
         $this->databaseManager = $databaseManager;
     }
 
-    public function create(): void
+    public function create($values): void
     {
-        $query= "INSERT INTO crud (title, author, synopsis) VALUES ($_GET[title],$_GET[author],$_GET[synopsis])";
-        $result= $this->databaseManager->connection->query($query);
-        return;
+        $query= "INSERT IGNORE INTO books (`title`, `author`, `synopsis`) VALUES (values)";
+        header('Location:index.php');
+        //this updates the table on refresh of site
+
     }
 
     // Get one
@@ -35,33 +36,20 @@ class CardRepository
     // check index.php#
     // array is expected as result of function
     public function get():PDOStatement
-    // now format is a PDOStatement instead of an array
     {
-        // TODO: replace dummy data by real one
-        // to FETCH create variable
-        // QUERY ALWAYS AS STRING
-        
+        // TODO: replace dummy data by real one        
         $query= "SELECT * FROM `books`";
-        //return $this->databaseManager->connection->query($query); returns into error
-        // error = return value must be of type array --> the return is a PDO STATEMENT
-        // fix PDO STATEMENT and turn into ARRAY
-        //FIFTH
         $result= $this->databaseManager->connection->query($query); 
         return $result;
-        //refers to DatabaseManager.php connection 
-        // no "$" in chain
-        //query is build-in function in PDO --> creates function for us
-        // return [
-        //     ['name' => 'dummy one'],
-        //     ['name' => 'dummy two'],
-        // ];
         // We get the database connection first, so we can apply our queries with it
         // return $this->databaseManager->connection-> (runYourQueryHere)
     }
 
     public function update(): void
     {
-
+        $query="UPDATE books SET 'title'= '{$_GET['title']}', '{$_GET['author']}', '{$_GET['synopsis']}' WHERE id = '{$_SESSION['id']}'";
+        this->datamanager->connection->query($query);
+        header('Location:index.php');
     }
 
     public function delete(): void
