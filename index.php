@@ -85,13 +85,26 @@ function create($cardRepository)
     $cardRepository->create($values);
 }
 
-function update($cardRepository){
-    $query="SELECT * FROM books WHERE id ={$_SESSION['id']}'"; //fetch data from table books using id's
-    $result=$databaseManager->connection->query($query);
-    $fetch=$result->fetch(PDO::FETCH_ASSOC);
-    pre (array:$fetch);
-    require 'Edit.php';
+function update($cardRepository): void
+{
+    $fetch = $cardRepository->find();
+        require 'Edit.php';
     if(!empty($_GET['books'])){
         $cardRepository->update;
     }
+}
+
+function delete($cardRepository): void
+{
+    $fetch = $cardRepository->find();
+    require 'delete.php';
+    if (!empty($_GET['deleteCheck'])){
+        $cardRepository->delete();
+    }
+}
+
+function show($cardRepository): void
+{
+    $fetch = $cardRepository->find();
+    require 'show.php';
 }

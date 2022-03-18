@@ -9,32 +9,26 @@
 </head>
 <body>
 
-<h1>Goodcard - track your collection of Pokémon cards</h1>
-<!-- step one done -->
-<ul>
-    <?php foreach ($cards as $card) : ?>
-        <li><?= $card['title'] ?></li>
-        <li><?= $card['author'] ?></li>
-        <li><?= $card['synopsis'] ?></li>
-        <a href="?action=create">update</a><br>
-        <a href="?action=create">delete</a>
-    <?php endforeach; ?>
-</ul>
-<!-- start step 2 update a table -->
-<form method="GET"> <!--post connected to name & POST is used to save value
-                                                & GET needs to open a session, store value and then use
-        name is refering to database -->
-        <!-- CAN USE GET ON ANCHOR TAGS AND BUTTONS -->
-        <label for="title">Title</label>
-        <input type="text" id="title" name="title">
-        <label for="author">Author</label>
-        <input type="text" id="author" name="author">
-        <label for="synopsis">Synopsis</label>
-        <input type="text" id="synopsis" name="synopsis">
-        <input type="submit">
-        <a href=?action="create.php">create</a><br>
+<h1>books - track your collection of books cards</h1>
 
+<table style="text-align: center; border: solid 1px; padding: 10px;">
+    <th style="border: solid 1px">Title</th>
+    <th style="border: solid 1px">Author</th>
+    <th style="border: solid 1px">Synopsis</th>
+        <?php foreach ($cards as $card) : ?>
+        <tr>
+            <td style="border-bottom: solid 1px;"><?= $card['title'] ?></td>
+            <td style="border-bottom: solid 1px;"><?= $card['author'] ?></td>
+            <td style="border-bottom: solid 1px;"><?= $card['synopsis'] ?></td>
+            <td style="border-bottom: solid 1px;"><a href="<?= "index.php?id={$card['id']}&action=update"?>">Update</a></td>
+            <td style="border-bottom: solid 1px;"><a href="<?= "index.php?id={$card['id']}&action=delete"?>">Delete</a></td>
+            <td style="border-bottom: solid 1px;"><a href="<?= "index.php?id={$card['id']}&action=show"?>">Details</a></td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+<!-- step one done -->
+<a href="index.php?action=create">Create a new book</a>
          <!-- ALWAYS can use same value for Id and name -->
-</form>
+<?php pre($_GET);?>
 </body>
 </html>
